@@ -3,7 +3,7 @@ from model_mommy import mommy
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from sales.models import Inventory
+from sales.models import Inventory, Order
 
 
 class InventoryListTestCase(APITestCase):
@@ -81,3 +81,9 @@ class InventoryDetailTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         with self.assertRaises(Inventory.DoesNotExist):
             Inventory.objects.get(name=self.inventory.name)
+
+    def test_dont_allow_delete_when_has_orders(self):
+        mommy.make(Order, inventories=[self.inventory])
+        url = reverse('inventory-detail', args=(self.inventory.id,))
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
