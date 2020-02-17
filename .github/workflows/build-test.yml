@@ -1,0 +1,16 @@
+name: build-test
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      run: docker-compose build
+    - name: Test
+      run: docker-compose run -e CI=1 -e COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} web
