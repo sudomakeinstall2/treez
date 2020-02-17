@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-t+e#up@bukn@vx!=^hdw&x5cnegs9j)_bon1%8m$ybvs5!u3z'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sales',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +76,12 @@ WSGI_APPLICATION = 'treez.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('SQL_DATABASE', 'postgres'),
+        'USER': os.getenv('SQL_USER'),
+        'PASSWORD': os.getenv('SQL_PASSWORD'),
+        'HOST': os.getenv('SQL_HOST'),
+        'PORT': os.getenv('SQL_PORT'),
     }
 }
 
