@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Inventory(models.Model):
-    name = models.CharField(blank=False, max_length=50)
+    name = models.CharField(blank=False, max_length=50, unique=True)
     description = models.TextField()
     price = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
