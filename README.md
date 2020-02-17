@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/sudomakeinstall2/treez/badge.svg?branch=master)](https://coveralls.io/github/sudomakeinstall2/treez?branch=master)
 # treez
 Simple REST API implemented using `django` and `djangorestframwork`
 
