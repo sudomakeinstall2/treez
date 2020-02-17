@@ -43,3 +43,41 @@ class InventoryListTestCase(APITestCase):
             "price": inventory.price,
             "quantity": inventory.quantity
         }, data)
+
+
+class InventoryDetailTestCase(APITestCase):
+
+    def setUp(self):
+        self.inventory = mommy.make(Inventory)
+
+    def test_get_inventory(self):
+        url = reverse('inventory-detail', args=(self.inventory.id, ))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertDictEqual(response.json(), {
+            "name": self.inventory.name,
+            "id": self.inventory.id,
+            "description": self.inventory.description,
+            "price": self.inventory.price,
+            "quantity": self.inventory.quantity,
+        })
+
+    def test_put_inventory(self):
+        url = reverse('inventory-detail', args=(self.inventory.id,))
+        data = {
+            "name": "name2",
+            "description": "desc2",
+            "price": self.inventory.price + 1000,
+            "quantity": self.inventory.quantity + 10,
+        }
+        response = self.client.put(url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data['id'] = self.inventory.id
+        self.assertDictEqual(response.json(), data)
+
+    def test_delete_inventory(self):
+        url = reverse('inventory-detail', args=(self.inventory.id,))
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        with self.assertRaises(Inventory.DoesNotExist):
+            Inventory.objects.get(name=self.inventory.name)

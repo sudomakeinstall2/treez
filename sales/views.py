@@ -8,3 +8,7 @@ class InventoryListView(generics.ListCreateAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
 
+
+class InventoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Inventory.objects.all()
+    serializer_class = InventorySerializer
