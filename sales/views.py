@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from .serializers import InventorySerializer
+from .models import Inventory
+
+
+class InventoryListView(generics.ListCreateAPIView):
+    queryset = Inventory.objects.all()
+    serializer_class = InventorySerializer
