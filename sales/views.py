@@ -1,8 +1,8 @@
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 
-from .serializers import InventorySerializer
-from .models import Inventory
+from .serializers import InventorySerializer, OrderSerializer
+from .models import Inventory, Order
 
 
 class InventoryListView(generics.ListCreateAPIView):
@@ -18,3 +18,7 @@ class InventoryDetailView(generics.RetrieveUpdateDestroyAPIView):
         if instance.order_set.count():
             raise ValidationError("Can not delete inventories with orders.")
         instance.delete()
+
+class OrderListView(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
